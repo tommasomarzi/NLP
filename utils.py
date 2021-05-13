@@ -1,3 +1,5 @@
+import pandas as pd
+
 def get_datasets(filename, test_fraction = 1/5, discard = None, random_state = 42):
     dataset = pd.read_csv(filename)
     
