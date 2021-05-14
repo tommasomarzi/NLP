@@ -2,14 +2,14 @@ import sys
 import subprocess
 import pkg_resources
 
-install_requires = {'numpy', 'pandas', 'datasets'}
+install_requires = {'numpy', 'pandas', 'datasets', 'transformers'}
 existing_packages = {pkg.key for pkg in pkg_resources.working_set}
 missing_packages = install_requires - existing_packages
 
 if missing_packages:
-    print("The following packages are missing and will be installed:\n{packs}".format(packs = missing_packages))
+    print("The following packages are missing and will be installed:\n{packages}".format(packages = missing_packages))
     try:    
-        subprocess.check_call([sys.executable, '-m', 'pip'+sys.version_info[0], 'install', *missing_packages], stdout=subprocess.DEVNULL)
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', *missing_packages], stdout=subprocess.DEVNULL)
     except subprocess.CalledProcessError:
         print("subprocess.CalledProcessError: installation went wrong.") 
     except OSError:
