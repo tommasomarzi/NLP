@@ -6,7 +6,7 @@ from datasets import Dataset
 
 
 def clean_datasets():
-    config = read_json()
+    config = read_config()
     if config['kaggle']:
         trainset, testset = get_datasets("../input/commonlitreadabilityprize/train.csv",
                                  discard = ["url_legal","license"])
@@ -20,7 +20,7 @@ def clean_datasets():
     return trainset, testset
 
 
-def read_json():
+def read_config():
     with open(os.path.join((sys.path[0]), 'config.json')) as json_file:
         config = json.load(json_file)
     return config
