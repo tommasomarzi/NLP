@@ -4,6 +4,11 @@ import pandas as pd
 import json
 from datasets import Dataset
 
+def search_path(name, starting_repo = sys.path[0]):
+    for path, directories, files in os.walk(starting_repo):
+        if name in files:
+            return os.path.join(path, name)
+            
 
 def clean_datasets():
     config = read_config()
@@ -13,7 +18,9 @@ def clean_datasets():
         trainset = trainset.rename(columns = {'target': 'labels', 'excerpt': 'text'})
         testset = testset.rename(columns = {'target': 'labels', 'excerpt': 'text'})
     else:
-        trainset, testset = get_datasets(config['filename'],  discard = config['discard'])
+        trainset, testset = get_datasets(config['dataset']['filename'],  
+                                 discard = config['dataset']['discard'])
+
     trainset = Dataset.from_pandas(trainset)
     testset = Dataset.from_pandas(testset)
 
@@ -21,7 +28,7 @@ def clean_datasets():
 
 
 def read_config():
-    with open(os.path.join((sys.path[0]), 'config.json')) as json_file:
+    with open(search_path('config.json')) as json_file:
         config = json.load(json_file)
     return config
 

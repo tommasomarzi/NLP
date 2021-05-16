@@ -1,8 +1,13 @@
 {
   "kaggle"                : true,
-  "filename"              : "path/to/file",
-  "discard"               : ["col1", "col2"],
-  "pretrained_model"      : "bert-base-cased",
+  "dataframe"             : {
+                              "filename"              : "path/to/file",
+                              "discard"               : ["col1", "col2"]
+                            },
+  "tokenization"          : {
+                              "remove"                : ["col1", "col2"],
+                              "pretrained_model"      : "bert-base-cased"
+                            },
   "parameters"            : {
                               "n_epochs"          : 10,
                               "learning_rate"     : 1e-5,
