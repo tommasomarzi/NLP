@@ -1,4 +1,30 @@
+import os
+import sys
 import pandas as pd
+import json
+from datasets import Dataset
+
+
+def clean_datasets():
+    config = read_json()
+    if config['kaggle']:
+        trainset, testset = get_datasets("../input/commonlitreadabilityprize/train.csv",
+                                 discard = ["url_legal","license"])
+        trainset = trainset.rename(columns = {'target': 'labels', 'excerpt': 'text'})
+        testset = testset.rename(columns = {'target': 'labels', 'excerpt': 'text'})
+    else:
+        trainset, testset = get_datasets(config['filename'],  discard = config['discard'])
+    trainset = Dataset.from_pandas(trainset)
+    testset = Dataset.from_pandas(testset)
+
+    return trainset, testset
+
+
+def read_json():
+    with open(os.path.join((sys.path[0]), 'config.json')) as json_file:
+        config = json.load(json_file)
+    return config
+
 
 def get_datasets(filename, test_fraction = 1/5, discard = None, random_state = 42):
     dataset = pd.read_csv(filename)
