@@ -2,13 +2,13 @@ import sys
 import subprocess
 import pkg_resources
 import os
+from utils import search_path
 
-def package_management():
-    workspace = os.path.dirname(os.path.abspath(__file__))
-    install_requires = set(line.strip() for line in open(os.path.join((sys.path[0]), 'requirements.txt')))
+def package_management():    
+    path_to_req = search_path('requirements.txt')
+    install_requires = set(line.strip() for line in open(path_to_req))
     existing_packages = {pkg.key for pkg in pkg_resources.working_set}
     missing_packages = install_requires - existing_packages
-    print(missing_packages)
     if missing_packages:
         print("The following packages are missing and will be installed:\n{packages}".format(packages = missing_packages))
         try:    
@@ -19,4 +19,5 @@ def package_management():
             print("OSError: command not found.") 
         else:
             print("Installation was successful.")
-package_management()
+
+
