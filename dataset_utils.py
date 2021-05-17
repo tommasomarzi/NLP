@@ -1,5 +1,5 @@
 import pandas as pd
-from NLP.utils import read_config
+from utils import read_config
 from datasets import Dataset
 
 
@@ -32,7 +32,7 @@ def get_datasets(filename, test_fraction = 1/5, discard = None, random_state = 4
     
 
 def train_test_split(dataset, test_fraction, random_state_):
-    
     dataset = dataset.sample(frac=1, random_state = random_state_).reset_index()
     ntest = int(len(dataset) // (1/test_fraction))
+    
     return dataset[:ntest], dataset[ntest:]
